@@ -1,0 +1,102 @@
+@model IEnumerable<App.Models.ListCart.CartDB>
+
+  <table class="table">
+    <thead>
+        <tr>
+            <th>
+                Mã Đơn hàng
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Content)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CartUserName)
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CartTotal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>Xem</th>
+            <th>Hủy</th>
+            <th>Xóa</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                <p>@Html.DisplayFor(modelItem => item.CartId)</p>
+            </td>
+            <td>
+                <p>@Html.DisplayFor(modelItem => item.Content)</p>
+
+            </td>
+            <td>
+                <p>@Html.DisplayFor(modelItem => item.CartUserName)</p>
+
+            </td>
+            <td>
+                <p>@Html.DisplayFor(modelItem => item.PhoneNumber)</p>
+
+            </td>
+            <td>
+                <p>@Html.DisplayFor(modelItem => item.CartTotal)</p>
+
+
+            </td>
+            <td>
+                <p>@Html.DisplayFor(modelItem => item.DateCreated)</p>
+
+
+            </td>
+            <td>
+                <p>@Html.DisplayFor(modelItem => item.Status)</p>
+
+
+            </td>
+            <td>
+                <a asp-action="OrderDetail" asp-route-id="@item.CartId">Chi tiết</a>
+                @* <a asp-action="Delete" asp-route-id="@item.Id">Xóa</a> *@
+            </td>
+            <td>
+                @if(@item.Status == null)
+                {
+                <a asp-action="OrderCancel" asp-route-orderid="@item.CartId">Hủy</a>
+
+                }
+                
+            </td>
+            <td>
+               <button class="btn btn-danger">
+                    <a style="color: #fff;" asp-action="Delete" asp-route-cartid="@item.CartId">Xóa</a>
+                </button>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+@* @foreach (var item in Model)
+{
+  <p>@Html.DisplayNameFor(modelItem => item.CartId)</p>
+
+<p>@Html.DisplayNameFor(modelItem => item.Content)</p>
+
+<p>@Html.DisplayNameFor(modelItem => item.CartUserName)</p>
+
+<p>@Html.DisplayNameFor(modelItem => item.PhoneNumber)</p>
+
+<p>@Html.DisplayNameFor(modelItem => item.CartTotal)</p>
+
+<p>@Html.DisplayNameFor(modelItem => item.DateCreated)</p>
+<hr>
+} *@

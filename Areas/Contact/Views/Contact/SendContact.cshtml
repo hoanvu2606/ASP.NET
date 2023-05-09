@@ -1,0 +1,47 @@
+@model App.Models.Contacts.Contact
+
+@{
+    ViewData["Title"] = "Gửi liên hệ tới AppMvc";
+}
+
+<div class="row">
+    
+    <div class="col-md-5">
+			<h2 class="mb-5">LIÊN HỆ VỚI CHÚNG TÔI</h2>
+        <form asp-action="SendContact" class="formcontact">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FullName" class="control-label"></label>
+                <input asp-for="FullName" class="form-control" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+ 
+
+            <div class="form-group">
+                <label asp-for="Phone" class="control-label"></label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+
+             <div class="form-group">
+                <label asp-for="Message" class="control-label"></label>
+                <textarea rows="5" asp-for="Message" class="form-control"></textarea>
+                <span asp-validation-for="Message" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Gửi liên hệ" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+	<div class="col-md-7">
+		<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3834.074037077378!2d108.1565490747985!3d16.061647384616723!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31421924682e8689%3A0x48eb0bdbeec05215!2zVHLGsOG7nW5nIMSQ4bqhaSBI4buNYyBTxrAgUGjhuqFtIC0gxJDhuqFpIGjhu41jIMSQw6AgTuG6tW5n!5e0!3m2!1svi!2s!4v1681725679670!5m2!1svi!2s" width="800" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+</div>
+
+

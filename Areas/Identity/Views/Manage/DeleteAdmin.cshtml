@@ -1,0 +1,14 @@
+@using App.Menu
+@model App.Models.ListCart.CartDB
+
+@{
+    ViewData["Title"] = "Xóa đơn hàng";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h3>Có chắc chắn xóa đơn hàng??</h3>
+    <form asp-action="DeleteAdmin" asp-route-cartid="@Model.CartId" >
+        <input method="post" type="submit" value="Xóa" class="btn btn-danger" />
+    </form>
+</div>

@@ -1,0 +1,150 @@
+@model ProductModel
+@using App.Components
+@using AppMvc.Areas.Product.Models
+
+@{ 
+    List<CategoryProduct> categories = ViewBag.categories as List<CategoryProduct>;
+    CategoryProduct category = ViewBag.category as CategoryProduct;  
+    ViewData["Title"] = Model.Title;    
+
+    IQueryable<ProductModel> otherProducts = ViewBag.otherProducts as IQueryable<ProductModel>;
+}
+<partial name="_AlertMessage" />
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="~/">Home</a></li>
+    @if  (category != null)
+    {
+        var li = category.ListParents();
+        foreach (var l in li)
+        {
+            <li class="breadcrumb-item">
+                <a asp-action="Index" asp-route-categoryslug="@l.Slug">@l.Title</a>
+            </li>
+        }
+        <li class="breadcrumb-item">
+                <a asp-action="Index" asp-route-categoryslug="@category.Slug">@category.Title</a>
+        </li>
+    } 
+  </ol>
+</nav>
+
+<div class="detailpost" >
+    <h1><strong>@Model.Title</strong></h1>
+    <div class="sapo" style="color: #FF8000;">
+        @Model.Description
+    </div>
+    <br>
+    <div>
+        <p>
+            Giá: <strong>@Model.Price.ToString("N0") VnĐ</strong>
+            @if(@Model.quantity==0)
+            {
+            <button class="btn btn-danger" disabled>Hết hàng</button>
+
+            }
+            else{
+            <a asp-action="AddToCart" asp-route-productid="@Model.ProductID"  class="btn btn-primary">Đặt hàng</a>
+
+            }
+        </p>
+    </div>
+    <div>
+        <p>
+            Số lượng: <strong style="color: red;">@Model.quantity</strong>
+        </p>
+    </div>
+    <div>
+        <i>Cập nhật: @Model.DateUpdated</i> / 
+        Tác giả: <strong>@Model.Author.UserName</strong>
+    </div>
+
+    @if (Model.Photos.Any())
+    {
+        <div class="d-flex flex-wrap">
+            @foreach (var photo in Model.Photos)
+            {
+                <img class="w-50" src="/contents/Products/@photo.FileName" />
+            }
+        </div>
+    }
+
+
+
+    <hr>
+    <h4><strong>Nội dung:</strong></h4>
+    @Html.Raw(Model.Content)
+    
+    <hr>
+    @* <div style="margin-bottom: 30px;">
+    <h4><strong>Review từ người đọc:</strong></h4>
+    <br>
+  
+        @foreach (var item in Model.ReviewList)
+        {
+            <h4>@item.reviewName</h4>
+            @for (int i = 0; i < item.start; i++)
+            {
+                <i style="color: #FF8000;" class="fa fa-star" aria-hidden="true"></i>
+            }
+            <p>@item.content</p>
+        <hr>
+        }
+        
+       <br>
+        <p>
+            <button class="btn btn-success"><a style="color: #fff;" asp-action="AddReview" asp-route-productid="@Model.ProductID">+ Thêm review</a>  </button>   
+        </p>
+        </div> *@
+</div>
+
+
+
+
+@section Sidebar {
+    @*@await Component.InvokeAsync("App.Components.CategoryProductSidebar", 
+        new CategoryProductSidebar.CategorySidebarData()
+        {
+            Categories = categories,
+            level = 0,
+            categoryslug = category.Slug
+        }) *@
+    <h4>Sản phẩm liên quan</h4>
+    <hr>
+    <ul class="list-group">
+    @foreach (var product in otherProducts)
+    {
+        <li class="list-group-item">
+            <a asp-controller="ViewProduct" asp-action="Detail" asp-route-productslug="@product.Slug">
+                <strong>@product.Title</strong>
+            </a>
+            <p style="color: red;">@product.Price.ToString("N0") VNĐ</p>
+            <p style="font-style: italic;">@product.DateUpdated</p>
+        </li>
+    }
+    </ul>
+
+    <div style="margin-top: 30px;">
+    <h4>Review từ người đọc</h4>
+    <hr>
+    <br>
+  
+        @foreach (var item in Model.ReviewList)
+        {
+            <h4>@item.reviewName</h4>
+            @for (int i = 0; i < item.start; i++)
+            {
+                <i style="color: #FF8000;" class="fa fa-star" aria-hidden="true"></i>
+            }
+            <p>@item.content</p>
+        <hr>
+        }
+        
+       <br>
+        <p>
+            <button class="btn btn-success"><a style="color: #fff;" asp-action="AddReview" asp-route-productid="@Model.ProductID">+ Thêm review</a>  </button>   
+        </p>
+        </div>    
+}
+

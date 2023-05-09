@@ -1,0 +1,39 @@
+@model AppMvc.Areas.Product.Models.Review
+@using App.Components
+
+@{ 
+    @* List<CategoryProduct> categories = ViewBag.categories as List<CategoryProduct>;
+    CategoryProduct category = ViewBag.category as CategoryProduct;  
+
+    IQueryable<ProductModel> otherProducts = ViewBag.otherProducts as IQueryable<ProductModel>; *@
+}
+
+
+
+
+<div class="row">
+    <div class="col-md-6">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="reviewName" class="control-label"></label>
+                <input asp-for="reviewName" class="form-control" />
+                <span asp-validation-for="reviewName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="start" class="control-label"></label>
+                <input asp-for="start" class="form-control" />
+                <span asp-validation-for="start" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="content" class="control-label"></label>
+                <input asp-for="content" class="form-control" />
+                <span asp-validation-for="content" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Tạo" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+@using Microsoft.EntityFrameworkCore
+@using System.Data
+@using App.Menu
+@using App.Models.ListCart;
+@inject AdminSidebarService _AdminSidebarService
+@inject AppDbContext dbContext
+
+@{
+    ViewData["Title"] = "Doanh thu";
+    Layout =  "/Views/Shared/_LayoutAdmin.cshtml";
+    
+    
+
+}
+
+
+<partial name="_AlertMessage" />
+<h3 style="margin-left: 40%;margin-top: 15%;"><strong>TỔNG DOANH THU </strong></h3>
+@if(ViewBag.amount !=null)
+{
+
+    <h3 style="color: red;margin-left: 42%;"><strong>@ViewBag.amount VNĐ</strong></h3>
+}
+@{
+    _AdminSidebarService.SetActive("ProductManage", "Revenue", "Product");
+}
+
+@section Sidebar
+{
+    @Html.Raw(_AdminSidebarService.renderHtml())
+}

@@ -1,0 +1,97 @@
+@model List<Post>
+
+@using App.Components;
+@{ 
+    List<Category> categories = ViewBag.categories as List<Category>;
+    Category category = ViewBag.category as Category;  
+    ViewData["Title"] = (category != null) ? category.Title : 
+                        "TIN TỨC";
+}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="~/">Home</a></li>
+    @if  (category != null)
+    {
+        var li = category.ListParents();
+        foreach (var l in li)
+        {
+            <li class="breadcrumb-item">
+                <a asp-action="Index" asp-route-categoryslug="@l.Slug">@l.Title</a>
+            </li>
+        }
+    } 
+  </ol>
+</nav>
+
+
+
+<h1>@ViewData["Title"]</h1>
+@if (category != null)
+{
+    <p>@category.Description</p>
+}
+else
+{
+    <p>Theo dõi tin tức liên quan đến sách.</p>
+        
+}
+@* @using (Html.BeginForm())
+{
+    <div class="form-group form-inline">
+        Tìm tin tức: @Html.TextBox("SearchBlog","",new{@class="form-control"})
+        <input type="submit" class="btn btn-success" value=""/>
+    </div>
+} *@
+
+<form asp-action="Index">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group"> Tìm tin tức
+                <input name="searchblog" required />
+                <button type="submit" class="btn btn-primary">Tìm</button>
+            </div>
+            
+        </form>
+<hr>
+
+
+@foreach (var post in Model)
+{
+    <div class="media border-bottom mb-3 pb-3">
+        @* <img src="/contents/nophoto.png" class="mr-3 w-25"> *@
+        <div class="media-body">
+            <h4 class="mt-0">
+                <a asp-controller="ViewPost" asp-action="Detail" asp-route-postslug="@post.Slug">
+                    @post.Title
+                </a>
+            </h4>
+            <div style="font-style: italic;">
+            @post.Description
+            </div>
+            <div>
+                Chủ đề:
+                <strong class="text-success">
+                    @post.PostCategories.FirstOrDefault()?.Category.Title
+                </strong> 
+            </div>
+            <div class="author-row">
+                 Tác giả: <strong>@post.Author.UserName</strong> |
+                 Ngày cập nhật : <i>@post.DateUpdated.ToShortDateString()</i>
+            </div>
+        </div>
+    </div>
+}
+
+
+@section Sidebar {
+    @await Component.InvokeAsync("App.Components.CategorySidebar", 
+        new CategorySidebar.CategorySidebarData()
+        {
+            Categories = categories,
+            level = 0,
+            categoryslug = ViewBag.categoryslug
+        })
+}
+
+
+<partial name="_PagingXTL" model="@ViewBag.pagingModel" />

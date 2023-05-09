@@ -1,0 +1,42 @@
+@using App.Components
+@model App.Components.CategoryProductSidebar.CategorySidebarData
+@{ 
+    int level = Model.level;
+}
+@if (Model.Categories.Count > 0)
+{
+    @if (level == 0)
+    {
+        @Html.Raw("<div class=\"categorysidebar\">");
+        <button style=" height:50px;width:100%;border: 1px solid #fff; text-align:center;" class="btn btn-success">
+        <a style="color:#ffffff;font-size:18px" asp-controller="ViewProduct" asp-action="Index" asp-route-categoryslug="">
+            Danh mục sản phẩm
+        </a>
+        </button>    
+    }
+    <ul class="bookcate" style="font-family: 'Noto Serif', serif;">
+        @foreach (var category in Model.Categories)
+        {
+            var cssActive = (category.Slug == Model.categoryslug) ? "active" : null;
+            <li style="margin:15px"> <i class="fa fa-book" aria-hidden="true"></i>
+                <a class="@cssActive" asp-controller="ViewProduct" asp-action="Index" asp-route-categoryslug="@category.Slug">
+                    @category.Title
+                </a>
+                @if (category.CategoryChildren?.Count > 0)
+                {
+                        @await Component.InvokeAsync("App.Components.CategoryProductSidebar", 
+                            new CategoryProductSidebar.CategorySidebarData()
+                            {
+                                Categories = category.CategoryChildren.ToList(),
+                                level = level + 1,
+                                categoryslug = ViewBag.categoryslug
+                            })
+                }
+            </li>
+        }
+    </ul>
+    @if (level == 0)
+    {
+        @Html.Raw("</div>");
+    }
+}
